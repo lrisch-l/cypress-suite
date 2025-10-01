@@ -5,8 +5,10 @@ const path = require("path");
 module.exports = defineConfig({
   video: false,
   videosFolder: "cypress/videos",
+  screenshotsFolder: "cypress/screenshots",
+  defaultCommandTimeout: 8000,
+  chromeWebSecurity: false,
 
-  // Use Mochawesome reporter with embedded screenshots and charts
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     reportDir: "cypress/reports",
@@ -20,25 +22,22 @@ module.exports = defineConfig({
     embeddedScreenshots: true,
   },
 
-  // Enable tag-based filtering with cypress-grep
   env: {
     grepFilterSpecs: true,
     grepOmitFiltered: true,
+    baseTags: "@ui or @api",
   },
 
   e2e: {
-    baseUrl: "https://serverest.dev", // Default base URL (can be overridden)
+    // Dynamically switch between front-end and API base URLs
+    baseUrl: process.env.CYPRESS_baseUrl || "https://front.serverest.dev",
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     supportFile: "cypress/support/e2e.js",
 
     setupNodeEvents(on, config) {
-      // Register Mochawesome plugin
       require("cypress-mochawesome-reporter/plugin")(on);
-
-      // Register cypress-grep plugin for tag-based test filtering
       require("cypress-grep/src/plugin")(config);
 
-      // Custom task to increment email counter stored in a JSON file
       on("task", {
         nextEmailCount() {
           const file = path.resolve("cypress/emailCounter.json");
