@@ -1,0 +1,6 @@
+node_modules/
+.vscode/
+cypress/screenshots/
+.env
+dist/
+coverage/
