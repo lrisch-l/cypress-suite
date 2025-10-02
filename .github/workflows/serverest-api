@@ -42,7 +42,7 @@ jobs:
           node-version: "18"
 
       # --------------------------------------------
-      # STEP 3: Install project dependencies
+      # STEP 3: Install project dependencies (with peer conflict bypass)
       # --------------------------------------------
       - name: Install dependencies
         run: npm install --legacy-peer-deps
