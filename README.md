@@ -42,6 +42,6 @@ npx cypress run</code></pre>
 
 <ul>
   <li>✅ CI/CD pipeline with GitHub Actions</li>
-  <li>📄 <a href="https://github.com/lrisch-l/cypress-suite/actions?query=workflow%3A%22Cypress+Tests+with+Mochawesome%22">Latest Mochawesome Report</a></li>
+  <li>📄 <a href="https://github.com/lrisch-l/cypress-suite/tree/main/cypress/reports">Latest Mochawesome Report</a></li>
   <li>📸 Screenshots captured automatically on test failure</li>
 </ul>
