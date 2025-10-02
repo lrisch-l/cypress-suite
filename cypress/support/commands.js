@@ -6,12 +6,7 @@
  */
 
 import "cypress-file-upload";
-import {
-  fillLoginForm,
-  fillRegisterForm,
-  closeErrorMessage,
-  expectRequiredFields,
-} from "./helpersUI/uiActions.js";
+import { fillLoginForm, closeErrorMessage } from "./helpersUI/uiActions.js";
 
 /**
  * Logs in through the UI using provided credentials.

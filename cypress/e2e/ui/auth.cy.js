@@ -5,7 +5,12 @@
  * Covers validation of empty fields, invalid credentials, and successful admin registration.
  */
 
-import { fillRegisterForm } from "../../support/helpersUI/uiActions.js";
+import {
+  fillRegisterForm,
+  expectRequiredFields,
+  closeErrorMessage,
+} from "../../support/helpersUI/uiActions.js";
+
 import {
   adminUser,
   invalidUser,
@@ -38,8 +43,8 @@ describe("Serverest - Registration", () => {
 
   it("Scenario 1 - Register with empty fields @ui", () => {
     cy.get('[data-testid="cadastrar"]').click(); // Submit empty form
-    cy.expectRequiredFields(["Nome", "Email", "Password"]); // Validates required fields
-    cy.closeErrorMessage();
+    expectRequiredFields(["Nome", "Email", "Password"]); // Validates required fields
+    closeErrorMessage();
     cy.screenshot("registration-empty-fields");
   });
 
