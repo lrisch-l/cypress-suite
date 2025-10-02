@@ -55,11 +55,3 @@ Cypress.Commands.add("expectLoginRequiredErrors", () => {
 Cypress.Commands.add("closeErrorMessage", () => {
   closeErrorMessage();
 });
-
-/**
- * Validates required field messages for registration.
- * @param {string[]} fields - Array of field names to validate.
- */
-Cypress.Commands.add("expectRequiredFields", (fields) => {
-  expectRequiredFields(fields);
-});

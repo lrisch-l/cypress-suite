@@ -1,0 +1,93 @@
+# ============================================================
+# WORKFLOW: Cypress API Tests
+# PURPOSE: Run tests tagged with @api or fallback to full API suite
+# TRIGGERS: On push to API files, pull request, or manual dispatch
+# ============================================================
+
+name: Cypress API Tests
+
+on:
+  push:
+    paths:
+      - "cypress/e2e/api/**"
+    branches: [main]
+  pull_request:
+    paths:
+      - "cypress/e2e/api/**"
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      testTag:
+        description: "Tag to filter tests (e.g. @api, @regression, @smoke)"
+        required: false
+        default: ""
+
+jobs:
+  cypress-api:
+    runs-on: ubuntu-latest
+
+    steps:
+      # --------------------------------------------
+      # STEP 1: Checkout repository code
+      # --------------------------------------------
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # --------------------------------------------
+      # STEP 2: Set up Node.js environment
+      # --------------------------------------------
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      # --------------------------------------------
+      # STEP 3: Install project dependencies
+      # --------------------------------------------
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      # --------------------------------------------
+      # STEP 4: Run tests by tag or fallback to full API suite
+      # --------------------------------------------
+      - name: Run Cypress tests by tag (with fallback)
+        env:
+          CYPRESS_grep: ${{ github.event.inputs.testTag }}
+        run: |
+          if [ -z "$CYPRESS_grep" ]; then
+            echo "No tag provided. Running full API suite split by spec..."
+            npm run report:all:split
+          else
+            echo "Running tests with tag: $CYPRESS_grep"
+            npm run report:tag
+          fi
+
+      # --------------------------------------------
+      # STEP 5: Upload screenshots if any test fails
+      # --------------------------------------------
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+
+      # --------------------------------------------
+      # STEP 6: Upload Cypress videos (always)
+      # --------------------------------------------
+      - name: Upload videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      # --------------------------------------------
+      # STEP 7: Upload Mochawesome HTML report
+      # --------------------------------------------
+      - name: Upload Mochawesome report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report
+          path: cypress/reports/*.html
