@@ -63,14 +63,3 @@ Cypress.Commands.add("closeErrorMessage", () => {
 Cypress.Commands.add("expectRequiredFields", (fields) => {
   expectRequiredFields(fields);
 });
-
-/**
- * Fills the registration form and submits it.
- * @param {string} name - User's name.
- * @param {string} email - User's email.
- * @param {string} password - User's password.
- * @param {boolean} isAdmin - Whether to check the admin checkbox.
- */
-Cypress.Commands.add("fillRegisterForm", (name, email, password, isAdmin) => {
-  fillRegisterForm(name, email, password, isAdmin);
-});
