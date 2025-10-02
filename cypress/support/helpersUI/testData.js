@@ -18,10 +18,10 @@ export const invalidUser = {
 };
 
 export const productSample = {
-  name: "Prod 1",
-  description: "Desc 1",
-  price: "100",
-  quantity: "10",
+  name: "Prod LSR",
+  description: "Desc LSR",
+  price: "1000",
+  quantity: "1000000",
   imagePath: "images/image.jpg",
 };
 

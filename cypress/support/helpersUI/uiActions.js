@@ -84,3 +84,18 @@ export function increaseProductQuantity(times = 1) {
     }
   });
 }
+
+/**
+ * Confirms that a product with the given name exists in the product table.
+ *
+ * This helper searches for a <td> element containing the product name inside the table.
+ * It avoids unnecessary scrolling and only checks for existence.
+ *
+ * @param {string} productName - The name of the product to locate in the table.
+ *
+ * @example
+ * confirmProductExists("Prod 1");
+ */
+export function confirmProductExists(productName) {
+  cy.get("table").find("tr").contains("td", productName).should("exist");
+}
