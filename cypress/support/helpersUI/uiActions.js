@@ -1,11 +1,12 @@
 /**
- * UI helper functions used across test scenarios.
- * These are not Cypress commands, but reusable utilities.
+ * uiActions.js
+ * ---------------------------------------------
+ * UI helper functions for Cypress tests.
+ * Used internally by custom commands to interact with forms and validate UI elements.
  */
 
 /**
  * Fills the login form and submits it.
- * Used internally by cy.login() or directly if needed.
  * @param {string} email - User's email.
  * @param {string} password - User's password.
  */
@@ -44,6 +45,10 @@ export function closeErrorMessage() {
   });
 }
 
+/**
+ * Validates required field messages.
+ * @param {string[]} fields - Array of field names to validate.
+ */
 export function expectRequiredFields(fields) {
   fields.forEach((field) => {
     cy.contains(`${field} é obrigatório`).should("be.visible");
@@ -62,8 +67,20 @@ export function fillProductForm(name, description) {
 
 /**
  * Uploads a product image using the file upload plugin.
- * @param {string} relativePath - Path to the image file.
+ * @param {string} relativePath - Relative path to the image file.
  */
 export function uploadProductImage(relativePath) {
   cy.get('[data-testid="imagem"]').attachFile(relativePath);
+}
+
+/**
+ * Increases product quantity by clicking the increment button multiple times.
+ * @param {number} times - Number of times to click the button.
+ */
+export function increaseProductQuantity(times = 1) {
+  cy.get('button[data-testid="product-increase-quantity"]').then(($btn) => {
+    for (let i = 0; i < times; i++) {
+      cy.wrap($btn).click();
+    }
+  });
 }

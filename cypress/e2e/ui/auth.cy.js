@@ -1,8 +1,11 @@
-import {
-  fillRegisterForm,
-  closeErrorMessage,
-  expectRequiredFields,
-} from "../../support/helpersUI/uiActions.js";
+/**
+ * auth.cy.js
+ * ---------------------------------------------
+ * UI tests for Serverest login and registration flows.
+ * Covers validation of empty fields, invalid credentials, and successful admin registration.
+ */
+
+import { fillRegisterForm } from "../../support/helpersUI/uiActions.js";
 import {
   adminUser,
   invalidUser,
@@ -16,16 +19,14 @@ describe("Serverest - Login", () => {
 
   it("Scenario 1 - Empty login fields @ui", () => {
     cy.login(); // No credentials
-    cy.contains("Email é obrigatório").should("be.visible");
-    cy.contains("Password é obrigatório").should("be.visible");
-    closeErrorMessage();
+    cy.expectLoginRequiredErrors(); // Validates required field messages
     cy.screenshot("login-empty-fields");
   });
 
   it("Scenario 2 - Invalid login credentials @ui", () => {
-    cy.login(invalidUser.email, invalidUser.password);
+    cy.login(invalidUser.email, invalidUser.password); // Invalid credentials
     cy.contains("Email e/ou senha inválidos").should("be.visible");
-    closeErrorMessage();
+    cy.closeErrorMessage(); // Closes alert
     cy.screenshot("login-invalid-credentials");
   });
 });
@@ -36,9 +37,9 @@ describe("Serverest - Registration", () => {
   });
 
   it("Scenario 1 - Register with empty fields @ui", () => {
-    cy.get('[data-testid="cadastrar"]').click();
-    expectRequiredFields(["Nome", "Email", "Password"]);
-    closeErrorMessage();
+    cy.get('[data-testid="cadastrar"]').click(); // Submit empty form
+    cy.expectRequiredFields(["Nome", "Email", "Password"]); // Validates required fields
+    cy.closeErrorMessage();
     cy.screenshot("registration-empty-fields");
   });
 

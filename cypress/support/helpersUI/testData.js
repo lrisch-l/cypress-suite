@@ -1,26 +1,28 @@
 /**
- * Test data used across UI test scenarios.
- * Centralizes reusable values for consistency and maintainability.
+ * testData.js
+ * ---------------------------------------------
+ * Centralized test data for Serverest UI scenarios.
+ * Includes valid and invalid users, sample product, and dynamic email generator.
  */
 
 export const adminUser = {
-  name: 'Leandro',
-  email: 'leandrorisch4@gmail.com',
-  password: 'lsrgit@2025',
-  isAdmin: true
+  name: "Leandro",
+  email: "leandrorisch4@gmail.com",
+  password: "lsrgit@2025",
+  isAdmin: true,
 };
 
 export const invalidUser = {
-  email: 'a@gmail.com',
-  password: 'a@gmail.com'
+  email: "a@gmail.com",
+  password: "a@gmail.com",
 };
 
 export const productSample = {
-  name: 'Prod 1',
-  description: 'Desc 1',
-  price: '100',
-  quantity: '10',
-  imagePath: 'images/image.jpg'
+  name: "Prod 1",
+  description: "Desc 1",
+  price: "100",
+  quantity: "10",
+  imagePath: "images/image.jpg",
 };
 
 /**
