@@ -12,10 +12,9 @@ module.exports = defineConfig({
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
     reportDir: "cypress/reports",
-    reportFilename: "index",
     reportPageTitle: "Serverest Test Suite Report",
-    overwrite: true,
-    html: true,
+    overwrite: false,
+    html: false,
     json: true,
     inlineAssets: true,
     charts: true,
@@ -26,10 +25,10 @@ module.exports = defineConfig({
     grepFilterSpecs: true,
     grepOmitFiltered: true,
     baseTags: "@ui or @api",
+    apiUrl: process.env.CYPRESS_apiUrl || "https://serverest.dev",
   },
 
   e2e: {
-    // Dynamically switch between front-end and API base URLs
     baseUrl: process.env.CYPRESS_baseUrl || "https://front.serverest.dev",
     specPattern: "cypress/e2e/**/*.cy.{js,jsx,ts,tsx}",
     supportFile: "cypress/support/e2e.js",

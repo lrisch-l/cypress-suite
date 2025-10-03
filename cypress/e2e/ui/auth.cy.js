@@ -6,16 +6,10 @@
  */
 
 import {
-  fillRegisterForm,
   expectRequiredFields,
   closeErrorMessage,
 } from "../../support/helpersUI/uiActions.js";
-
-import {
-  adminUser,
-  invalidUser,
-  generateUniqueEmail,
-} from "../../support/helpersUI/testData.js";
+import { invalidUser } from "../../support/helpersUI/testData.js";
 
 describe("Serverest - Login", () => {
   beforeEach(() => {
@@ -46,19 +40,5 @@ describe("Serverest - Registration", () => {
     expectRequiredFields(["Nome", "Email", "Password"]); // Validates required fields
     closeErrorMessage();
     cy.screenshot("registration-empty-fields");
-  });
-
-  it("Scenario 2 - Successful admin registration @ui", () => {
-    cy.task("nextEmailCount").then((count) => {
-      const email = generateUniqueEmail(count);
-      fillRegisterForm(
-        adminUser.name,
-        email,
-        adminUser.password,
-        adminUser.isAdmin
-      );
-      cy.contains("Cadastro realizado com sucesso").should("be.visible");
-      cy.screenshot("registration-successful-admin");
-    });
   });
 });

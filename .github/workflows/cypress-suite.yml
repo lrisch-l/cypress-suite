@@ -1,0 +1,108 @@
+# ============================================================
+# WORKFLOW: Cypress Test Suite (UI + API)
+# PURPOSE: Run UI and API tests with tag-based execution and reporting
+# TRIGGERS: On push, pull request, or manual dispatch
+# ============================================================
+
+name: Cypress Test Suite
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      testTag:
+        description: "Tag to filter tests (e.g. @api, @ui, @smoke)"
+        required: false
+        default: ""
+
+jobs:
+  run-ui-tests:
+    name: Run UI Tests
+    runs-on: ubuntu-latest
+    if: github.event_name != 'workflow_dispatch' || contains(github.event.inputs.testTag, '@ui')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run Cypress UI tests
+        run: npm run report:ui
+
+      - name: Upload screenshots (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-ui
+          path: cypress/screenshots
+
+      - name: Upload videos (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos-ui
+          path: cypress/videos
+
+      - name: Upload Mochawesome report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report-ui
+          path: cypress/reports/*.html
+
+  run-api-tests:
+    name: Run API Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+
+      - name: Run Cypress API tests by tag (with fallback)
+        env:
+          CYPRESS_grep: ${{ github.event.inputs.testTag }}
+        run: |
+          if [ -z "$CYPRESS_grep" ]; then
+            echo "No tag provided. Running full API suite split by spec..."
+            npm run report:all:split
+          else
+            echo "Running tests with tag: $CYPRESS_grep"
+            npm run report:tag
+          fi
+
+      - name: Upload screenshots (on failure)
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots-api
+          path: cypress/screenshots
+
+      - name: Upload videos (always)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-videos-api
+          path: cypress/videos
+
+      - name: Upload Mochawesome report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome-report-api
+          path: cypress/reports/*.html
