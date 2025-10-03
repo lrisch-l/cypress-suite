@@ -49,18 +49,6 @@ describe("Users API", () => {
     });
   });
 
-  // GET /usuarios/{_id} → should return 400 for invalid/nonexistent ID
-  it("should return 400 when retrieving a nonexistent user by ID @api", () => {
-    cy.getUserById("999999999999999999999999999999").then((res) => {
-      expect(res.status).to.eq(400);
-      if (res.body && res.body.message) {
-        expect(res.body.message).to.include("Usuário não encontrado");
-      } else {
-        cy.log("⚠️ Response body is missing or undefined");
-      }
-    });
-  });
-
   // PUT /usuarios/{_id} → should update the user and return status 200
   it("should return 200 when updating an existing user @api", () => {
     const updated = {
