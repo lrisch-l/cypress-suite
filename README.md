@@ -9,8 +9,8 @@
   <li><code>cypress/e2e/api/</code> — API test scripts (e.g. <code>usuarios.cy.js</code>, <code>produtos.cy.js</code>, <code>login.cy.js</code>, <code>carrinhos.cy.js</code>)</li>
   <li><code>cypress/support/commands.js</code> — Custom Cypress commands</li>
   <li><code>cypress/support/helpersUI/</code> — UI helper functions and test data</li>
-  <li><code>cypress/support/helpers/</code> — API helper functions (e.g. payload builders, token handling)</li>
-  <li><code>cypress/reports/</code> — Generated Mochawesome reports (.json and .html)</li>
+  <li><code>cypress/support/helpers/</code> — API helper functions</li>
+  <li><code>cypress/reports/</code> — Generated Mochawesome reports</li>
 </ul>
 
 <h4>🧠 Helpers Overview</h4>
