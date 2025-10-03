@@ -37,14 +37,8 @@ npm run cy:run</code></pre>
 <h4>📑 Generate UI Report</h4>
 <pre><code>npm run report:ui</code></pre>
 
-<h4>📑 Generate API Report (split by spec)</h4>
-<pre><code>npm run report:all:split</code></pre>
-
-<h4>🧩 Merge Reports into Unified HTML</h4>
-<pre><code>npm run report:merge</code></pre>
-
-<h4>⚡ Full Report Workflow</h4>
-<pre><code>npm run report:full</code></pre>
+<h4>📑 Generate API Report</h4>
+<pre><code>npm run report:api</code></pre>
 
 <hr />
 
